@@ -5,6 +5,7 @@ pub(crate) struct TestVector {
     pub(crate) input: &'static [u8],
     pub(crate) nonce: [u8; 32],
     pub(crate) solutions: &'static [&'static [u32]],
+    pub(crate) pers: str,
 }
 
 pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
@@ -39,6 +40,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 66587, 104119, 29017, 61613, 97690, 106345, 47428, 98460, 53655, 109002,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -52,6 +54,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             27781, 85932, 101138, 114362, 4497, 14199, 36249, 41817, 23995, 93888, 35798, 96337,
             5530, 82377, 66438, 85247, 39332, 78978, 83015, 123505,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -65,6 +68,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             54692, 81690, 115200, 121929, 18968, 122421, 32882, 128517, 56629, 88083, 88022,
             102461, 35665, 62833, 95988, 114502, 39965, 119818, 45010, 94889,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -85,6 +89,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 120644, 4653, 101217, 19230, 113175, 16322, 24384, 21271, 96965,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -98,6 +103,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             127545, 35035, 73082, 118591, 120800, 13800, 32837, 23607, 86516, 17339, 114578, 22053,
             85510, 14913, 42826, 25168, 121262, 33673, 114773, 77592, 83471,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -115,6 +121,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 52568, 107874, 14999, 103687, 27027, 109468, 36918, 109660, 42196, 100424,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -135,6 +142,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 27137, 101117, 45804, 92838, 29548, 29574, 37737, 113624,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -148,6 +156,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             37925, 75404, 48671, 111682, 6937, 93582, 53272, 77545, 13715, 40867, 73187, 77853,
             7348, 70313, 24935, 24978, 25967, 41062, 58694, 110036,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -178,6 +187,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 60567, 97243, 26720, 56243, 60444, 107530, 40329, 56467, 91943, 93737,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -191,6 +201,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             29215, 73328, 39498, 83529, 9233, 124174, 66731, 97423, 10823, 92444, 25647, 127742,
             12207, 46292, 22018, 120758, 14411, 46485, 21828, 57591,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 96, k: 5 },
@@ -231,6 +242,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 44314, 50005, 38056, 49716, 83299, 95307, 41798, 82309, 94504, 96161,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 200, k: 9 },
@@ -290,6 +302,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             981619, 683206, 1485056, 766481, 2047708, 930443, 2040726, 1136227, 1945705, 1722044,
             1971986,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 200, k: 9 },
@@ -413,6 +426,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 838096, 1830099, 714438, 1058571, 986457, 1275490,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 200, k: 9 },
@@ -535,6 +549,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 2016847, 558752, 1627758, 1319354, 1973293, 844477, 2092434, 1252290, 1572207,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 200, k: 9 },
@@ -659,6 +674,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 722596, 1283260, 1948358,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 200, k: 9 },
@@ -721,6 +737,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             1240057, 816462, 1499323, 1890697, 1896908, 826192, 959241, 833980, 1301853, 1149691,
             1227108, 1164702, 1520364,
         ]],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 144, k: 5 },
@@ -746,6 +763,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 28951159, 19401173, 22240259, 12527355, 25816053, 26924563, 30167801,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 144, k: 5 },
@@ -786,6 +804,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 12058103, 23466254, 19021516, 19329156, 15273796, 15658582, 15782868, 30953403,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 144, k: 5 },
@@ -814,6 +833,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
                 13637567, 26765408, 26834306, 29589598, 17363888, 31088383, 17860587, 20580709,
             ],
         ],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 144, k: 5 },
@@ -823,6 +843,7 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             0, 0, 0,
         ],
         solutions: &[],
+        pers: b"ZcashPoW"
     },
     TestVector {
         params: Params { n: 144, k: 5 },
@@ -837,5 +858,6 @@ pub(crate) const VALID_TEST_VECTORS: &[TestVector] = &[
             8230824, 25830081, 4414521, 7228234, 20359437, 21115537, 11102213, 12353678, 19277545,
             26893604, 13111251, 30773720, 14408826, 26047501,
         ]],
+        pers: b"ZcashPoW"
     },
 ];

@@ -4,7 +4,7 @@
 
 use blake2b_simd::{Hash as Blake2bHash, Params as Blake2bParams, State as Blake2bState};
 use byteorder::{BigEndian, LittleEndian, ReadBytesExt, WriteBytesExt};
-use std::fmt;
+use std::{fmt};
 use std::io::Cursor;
 use std::mem::size_of;
 
@@ -146,8 +146,8 @@ impl fmt::Display for Kind {
     }
 }
 
-fn initialise_state(n: u32, k: u32, digest_len: u8) -> Blake2bState {
-    let mut personalization: Vec<u8> = Vec::from("ZcashPoW");
+fn initialise_state(n: u32, k: u32, digest_len: u8, pers: &[u8]) -> Blake2bState {
+    let mut personalization: Vec<u8> = pers.to_vec();
     personalization.write_u32::<LittleEndian>(n).unwrap();
     personalization.write_u32::<LittleEndian>(k).unwrap();
 
@@ -271,8 +271,9 @@ fn is_valid_solution_iterative(
     input: &[u8],
     nonce: &[u8],
     indices: &[u32],
+    pers: &[u8]
 ) -> Result<(), Error> {
-    let mut state = initialise_state(p.n, p.k, p.hash_output());
+    let mut state = initialise_state(p.n, p.k, p.hash_output(), pers);
     state.update(input);
     state.update(nonce);
 
@@ -321,8 +322,9 @@ fn is_valid_solution_recursive(
     input: &[u8],
     nonce: &[u8],
     indices: &[u32],
+    pers: &[u8]
 ) -> Result<(), Error> {
-    let mut state = initialise_state(p.n, p.k, p.hash_output());
+    let mut state = initialise_state(p.n, p.k, p.hash_output(), pers);
     state.update(input);
     state.update(nonce);
 
@@ -344,12 +346,13 @@ pub fn is_valid_solution(
     input: &[u8],
     nonce: &[u8],
     soln: &[u8],
+    pers: &[u8]
 ) -> Result<(), Error> {
     let p = Params::new(n, k)?;
     let indices = indices_from_minimal(p, soln)?;
 
     // Recursive validation is faster
-    is_valid_solution_recursive(p, input, nonce, &indices)
+    is_valid_solution_recursive(p, input, nonce, &indices, pers)
 }
 
 #[cfg(test)]
@@ -474,8 +477,8 @@ mod tests {
     fn valid_test_vectors() {
         for tv in VALID_TEST_VECTORS {
             for soln in tv.solutions {
-                is_valid_solution_iterative(tv.params, tv.input, &tv.nonce, soln).unwrap();
-                is_valid_solution_recursive(tv.params, tv.input, &tv.nonce, soln).unwrap();
+                is_valid_solution_iterative(tv.params, tv.input, &tv.nonce, soln, tv.pers).unwrap();
+                is_valid_solution_recursive(tv.params, tv.input, &tv.nonce, soln, tv.pers).unwrap();
             }
         }
     }
@@ -484,13 +487,13 @@ mod tests {
     fn invalid_test_vectors() {
         for tv in INVALID_TEST_VECTORS {
             assert_eq!(
-                is_valid_solution_iterative(tv.params, tv.input, &tv.nonce, &tv.solution)
+                is_valid_solution_iterative(tv.params, tv.input, &tv.nonce, &tv.solution, tv.pers)
                     .unwrap_err()
                     .0,
                 tv.error
             );
             assert_eq!(
-                is_valid_solution_recursive(tv.params, tv.input, &tv.nonce, &tv.solution)
+                is_valid_solution_recursive(tv.params, tv.input, &tv.nonce, &tv.solution, tv.pers)
                     .unwrap_err()
                     .0,
                 tv.error
@@ -508,6 +511,7 @@ mod tests {
             1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0,
         ];
+        let pers = b"ZcashPoW";
         let soln = &[
             0x04, 0x6a, 0x8e, 0xd4, 0x51, 0xa2, 0x19, 0x73, 0x32, 0xe7, 0x1f, 0x39, 0xdb, 0x9c,
             0x79, 0xfb, 0xf9, 0x3f, 0xc1, 0x44, 0x3d, 0xa5, 0x8f, 0xb3, 0x8d, 0x05, 0x99, 0x17,
@@ -517,13 +521,13 @@ mod tests {
         ];
 
         // Prove that the solution is valid.
-        is_valid_solution(n, k, input, &nonce, soln).unwrap();
+        is_valid_solution(n, k, input, &nonce, soln, pers).unwrap();
 
         // Changing any single bit of the encoded solution should make it invalid.
         for i in 0..soln.len() * 8 {
             let mut mutated = soln.to_vec();
             mutated[i / 8] ^= 1 << (i % 8);
-            is_valid_solution(n, k, input, &nonce, &mutated).unwrap_err();
+            is_valid_solution(n, k, input, &nonce, &mutated, pers).unwrap_err();
         }
     }
 }
